@@ -1,5 +1,4 @@
 const express = require("express");
-const serverless = require("serverless-http");
 const ErrorHandler = require("./middleware/error");
 const app = express();
 const cookieParser = require("cookie-parser");
@@ -57,4 +56,4 @@ app.use("/api/v2/withdraw", withdraw);
 // it's for ErrorHandling
 app.use(ErrorHandler);
 
-module.exports.handler = serverless(app);
+module.exports = app;
