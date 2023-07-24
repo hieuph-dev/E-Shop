@@ -16,9 +16,9 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname,"./uploads")));
-app.use("/", (req, res) => {
+app.use("/", ((req, res) => {
   res.send("Hello world!");
-});
+}));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 // config
