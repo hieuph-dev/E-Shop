@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 
+app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -13,11 +15,9 @@ app.use(
   })
 );
 
-app.use(express.json());
-app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname,"./uploads")));
-app.use("/", ((req, res) => {
-  res.send("Hello world!");
+app.use("/", ((req,res) => {
+  res.send("Hello world!")
 }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
@@ -39,7 +39,6 @@ const order = require("./controller/order");
 const conversation = require("./controller/conversation");
 const message = require("./controller/message");
 const withdraw = require("./controller/withdraw");
-const ServerlessHttp = require("serverless-http");
 
 app.use("/api/v2/user", user);
 app.use("/api/v2/shop", shop);
