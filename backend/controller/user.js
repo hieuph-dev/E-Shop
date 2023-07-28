@@ -3,20 +3,17 @@ const path = require("path");
 const User = require("../model/user");
 const router = express.Router();
 const cloudinary = require("cloudinary");
-const { upload } = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
-// const user = require("../model/user");
 
 //Endpoint POST để tạo người dùng mới. Sử dụng multer để tải lên tệp và lưu thông tin người dùng vào cơ sở dữ liệu. Gửi email kích hoạt tài khoản cho người dùng.
-router.post("/create-user", upload.single("file"), async (req, res, next) => {
+router.post("/create-user", async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, avatar } = req.body;
     const userEmail = await User.findOne({ email });
 
     if (userEmail) {
@@ -39,7 +36,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
 
     const activationToken = createActivationToken(user);
 
-    const activationUrl = `http://shopo-byhieupham-cefl.vercel.app/${activationToken}`;
+    const activationUrl = `http://shopo-byhieupham-cefl.vercel.app/activation/${activationToken}`;
 
     try {
       await sendMail({
@@ -111,7 +108,7 @@ router.post(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const { email, password } = req.body;
-      
+
       //validate
       if (!email || !password) {
         return next(new ErrorHandler("Please provide the all fields!", 400));
@@ -225,24 +222,30 @@ router.put(
 router.put(
   "/update-avatar",
   isAuthenticated,
-  upload.single("image"),
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const existsUser = await User.findById(req.user.id);
+      let existsUser = await User.findById(req.user.id);
 
-      const existAvatarPath = `uploads/${existsUser.avatar}`;
+      if (req.body.avatar !== "") {
+        const imageId = existsUser.avatar.public_id;
 
-      fs.unlinkSync(existAvatarPath);
+        await cloudinary.v2.uploader.destroy(imageId);
 
-      const fileUrl = path.join(req.file.filename);
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+          folder: "avatars",
+          width: 150,
+        });
 
-      const user = await User.findByIdAndUpdate(req.user.id, {
-        avatar: fileUrl,
-      });
+        existsUser.avatar = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
+      await existsUser.save();
 
       res.status(200).json({
         success: true,
-        user,
+        user: existsUser,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));

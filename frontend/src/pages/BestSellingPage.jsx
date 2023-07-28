@@ -3,6 +3,7 @@ import Header from "../components/Layout/Header";
 import styles from "../styles/style";
 import ProductCard from "../components/Route/ProductCard/ProductCard";
 import { useSelector } from "react-redux";
+import Footer from "../components/Layout/Footer";
 
 const BestSellingPage = () => {
   const [data, setData] = useState([]);
@@ -24,6 +25,7 @@ const BestSellingPage = () => {
           {data && data.map((i, index) => <ProductCard data={i} key={index} />)}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

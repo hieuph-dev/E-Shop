@@ -33,7 +33,7 @@ const EventCard = ({ active, data }) => {
       } lg:flex p-2 mb-12`}
     >
       <div className="w-full lg:-w[50%] m-auto">
-        <img src={`${backend_url}${data.images[0]}`} alt="" className="object-fill"/>
+        <img src={`${data.images[0]?.url}`} alt="" className="object-fill"/>
       </div>
       <div className="w-full lg:[w-50%] flex flex-col justify-center">
         <h2 className={`${styles.productTitle}`}>{data.name}</h2>
@@ -48,7 +48,7 @@ const EventCard = ({ active, data }) => {
             </h5>
           </div>
           <span className="pr-3 font-[400] text-[17px] text-[#44a55e]">
-            75 sold
+          {data.sold_out} sold
           </span>
         </div>
         <CountDown data={data} />
