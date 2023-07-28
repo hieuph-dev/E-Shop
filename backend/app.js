@@ -8,7 +8,7 @@ const path = require("path");
 
 app.use(
   cors({
-    origin: "http://shopo-byhieupham-cefl.vercel.app",
+    origin: "https://shopo-byhieupham-cefl-ojj64zxv5-hieustupid2502-gmailcom.vercel.app/",
     credentials: true,
   })
 );
