@@ -38,7 +38,7 @@ router.post(
 
       const activationToken = createActivationToken(seller);
 
-      const activationUrl = `http://shopo-byhieupham-cefl.vercel.app/seller/activation/${activationToken}`;
+      const activationUrl = `https://shopo-byhieupham-pyri.vercel.app/seller/activation/${activationToken}`;
 
       try {
         await sendMail({
