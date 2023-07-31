@@ -94,7 +94,7 @@ const CreateEvent = () => {
       images,
       shopId: seller._id,
       start_Date: startDate?.toISOString(),
-      Finish_Date: endDate?.toISOString(),
+      finish_Date: endDate?.toISOString(),
     };
     dispatch(createEvent(data));
   };
