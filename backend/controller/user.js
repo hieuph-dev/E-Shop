@@ -138,7 +138,7 @@ router.post(
 // load user
 // Endpoint GET để lấy thông tin người dùng hiện tại sau khi xác thực.
 router.get(
-  "/getuser",
+  "/getUser",
   isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {

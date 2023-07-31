@@ -1,9 +1,7 @@
 const express = require("express");
-const path = require("path");
 const Shop = require("../model/shop");
 const router = express.Router();
 const cloudinary = require("cloudinary");
-const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
 const { isAuthenticated, isSeller, isAdmin } = require("../middleware/auth");
