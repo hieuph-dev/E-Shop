@@ -31,6 +31,10 @@ router.post(
         name: req.body.name,
         email: email,
         password: req.body.password,
+        avatar: {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        },
         address: req.body.address,
         phoneNumber: req.body.phoneNumber,
         zipCode: req.body.zipCode,
@@ -166,7 +170,6 @@ router.get(
 // log out from shop
 router.get(
   "/logout",
-  // isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {
       res.cookie("seller_token", null, {
