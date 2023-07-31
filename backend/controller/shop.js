@@ -170,7 +170,6 @@ router.get(
 // log out from shop
 router.get(
   "/logout",
-  isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {
       res.cookie("seller_token", null, {

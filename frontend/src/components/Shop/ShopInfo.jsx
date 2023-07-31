@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { server } from "../../server";
 import styles from "../../styles/style";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAllProductsShop } from "../../redux/actions/product";
 import Loader from "../Layout/Loader";
 
@@ -13,6 +13,7 @@ const ShopInfo = ({ isOwner }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllProductsShop(id));
@@ -32,6 +33,7 @@ const ShopInfo = ({ isOwner }) => {
   const logoutHandler = async () => {
     axios.get(`${server}/shop/logout`, { withCredentials: true });
     window.location.reload();
+    navigate("/login-shop");
   };
 
   const totalReviewsLength =
